@@ -29,16 +29,22 @@ class App extends Component {
     })
   }
 
-nameChangeHandler=(event)=>
+nameChangeHandler=(event,id)=>
 {
-  this.setState({
-    persons:[
-      {name:"shivkaran", age : 29},
-      {name:'Sakshi', age : 5},
-      {name:event.target.value, age : 11},
-      {name:'Nandni', age : 7}
-    ]
-  })
+  const personIndex=this.state.persons.findIndex(p=>{
+    return p.id===id;
+  });
+
+const person={...this.state.persons[personIndex]}
+//spreed operator ... it used for making the copy of orignal object so that we dont pay with orignal object.
+//alternate approch
+//const person=Object.assign({},this.state.persons[personIndex])
+
+person.name=event.target.value;
+const persons=[...this.state.persons];
+persons[personIndex]=person;
+
+  this.setState({persons:persons})
 }
 
 deletePersonHandler=(personIndex)=>{
@@ -77,6 +83,7 @@ if(this.state.showPerson)
        name ={person.name} 
        age ={person.age}
        key={person.id}
+       change={(event)=>this.nameChangeHandler(event,person.id)}
        />
      })}
     </div> 
