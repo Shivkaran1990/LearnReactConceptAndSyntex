@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Radium,{StyleRoot} from 'radium';
 import Person from "./Person/Person";
-import person from './Person/Person';
 
 class App extends Component {
   state={
@@ -64,11 +63,16 @@ togglePersonHanlder=()=>{
 render() {
 
 const style={
-  backgrondColor:'white',
+  backgroundColor:'green',
+  color :'white',
   font:'inherit',
   border:'1x solid blue',
   padding:'10px',
-  cursor:'pointer'
+  cursor:'pointer',
+  ':hover' :{
+    backgroundColor:'lightgreen',
+    color:'black'
+  }
 }
 
 let persons=null;
@@ -88,19 +92,37 @@ if(this.state.showPerson)
      })}
     </div> 
   );
+  style.backgroundColor='red'
+  style[':hover']={
+    backgroundColor :'salmon',
+    color :'black'
+  }
 }
 
+let classes=[];
+
+if(this.state.persons.length<=2)
+{
+  classes.push('red');
+}
+if(this.state.persons.length<=1)
+{
+  classes.push('bold');
+}
     return (
+      <StyleRoot>
       <div className="App">
         <h1>Hi, This is Karan Ravidas</h1>
-        <button style ={style}
+        <p className={classes.join(' ')}>style is working as expexted</p>
+        <button 
+        style ={style}
         onClick={this.togglePersonHanlder}>switch name</button>
-      
          {persons}
       </div>
+      </StyleRoot>
     );
     //return React.createElement('div',{className:"App"},React.createElement('h1',null,'This is karan'));
   }
 }
 
-export default App;
+export default Radium(App);
